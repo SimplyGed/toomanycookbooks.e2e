@@ -15,3 +15,11 @@ steps:
   inputs:
     command: 'build'
     projects: '**/*.csproj'
+    arguments: '--output $(Build.SourcesDirectory)/output --configuration release'
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish test library
+  inputs:
+    PathtoPublish: '$(Build.SourcesDirectory)/output'
+    ArtifactName: 'e2e'
+    publishLocation: 'tests'

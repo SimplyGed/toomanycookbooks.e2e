@@ -7,7 +7,7 @@ public class HomePageTests : PageTest
     [Test]
     public async Task RecipeTableIsLoaded()
     {
-        var page = await Browser.NewPageAsync(new() { BaseURL = "http://localhost:5148" });
+        var page = await Browser.NewPageAsync(new() { BaseURL = "https://toomanycookbooks-dev.azurewebsites.net" });
 
         await page.GotoAsync("/");
 

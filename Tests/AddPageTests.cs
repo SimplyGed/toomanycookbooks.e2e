@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 public class AddPageTests : PageTest
 {
-    private static string _baseURL = "http://localhost:5148/";
+    private static string _baseURL = "https://toomanycookbooks-dev.azurewebsites.net/";
     
     private IPage _browserPage = null!;
 
