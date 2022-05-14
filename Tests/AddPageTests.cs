@@ -1,18 +1,15 @@
 using System.Threading.Tasks;
 using Microsoft.Playwright;
-using Microsoft.Playwright.NUnit;
 using NUnit.Framework;
 
-public class AddPageTests : PageTest
+public class AddPageTests : TMCBPageTest
 {
-    private static string _baseURL = "https://toomanycookbooks-dev.azurewebsites.net/";
-    
     private IPage _browserPage = null!;
 
     [SetUp]
     public async Task Setup()
     {
-        _browserPage = await Browser.NewPageAsync(new() { BaseURL = _baseURL });
+        _browserPage = await Browser.NewPageAsync(new() { BaseURL = API });
     }
 
     [Test]
@@ -58,7 +55,7 @@ public class AddPageTests : PageTest
 
         await _browserPage.WaitForSelectorAsync("#recipes");
 
-        Assert.AreEqual(_baseURL, _browserPage.Url);
+        Assert.AreEqual(API, _browserPage.Url);
     }
 
     [Test]
@@ -80,6 +77,6 @@ public class AddPageTests : PageTest
 
         var rows = await home.GetTableRows();
 
-        Assert.AreEqual(5, rows.Count);
+        Assert.AreEqual(9, rows.Count);
     }
 }

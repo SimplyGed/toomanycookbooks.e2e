@@ -11,11 +11,19 @@ public class HomePage
     public HomePage(IPage page)
     {
         _page = page;
+
         _recipeTable = page.Locator("#recipes");
     }
 
-    public Task<IReadOnlyList<IElementHandle>> GetTableRows()
+    public async Task GotoAsync()
     {
-        return _page.QuerySelectorAllAsync("tbody tr");
+        await _page.GotoAsync("/");
+    }
+
+    public async Task<IReadOnlyList<IElementHandle>> GetTableRows()
+    {
+        await _page.WaitForSelectorAsync("#recipes tbody tr");
+
+        return await _page.QuerySelectorAllAsync("#recipes tbody tr");
     }
 }

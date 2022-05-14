@@ -1,21 +1,27 @@
 using System.Threading.Tasks;
-using Microsoft.Playwright.NUnit;
+using Microsoft.Playwright;
 using NUnit.Framework;
 
-public class HomePageTests : PageTest
+public class HomePageTests : TMCBPageTest
 {
+    private IPage _browserPage = null!;
+    
+    [SetUp]
+    public async Task Setup()
+    {
+        _browserPage = await Browser.NewPageAsync(new() { BaseURL = API });
+    }
+
     [Test]
     public async Task RecipeTableIsLoaded()
     {
-        var page = await Browser.NewPageAsync(new() { BaseURL = "https://toomanycookbooks-dev.azurewebsites.net" });
+        var page = new HomePage(_browserPage);
 
-        await page.GotoAsync("/");
+        await page.GotoAsync();
 
-        var recipes = await page.WaitForSelectorAsync("#recipes");
-
-        var rows = await recipes!.QuerySelectorAllAsync("tbody tr");
+        var rows = await page.GetTableRows();
         
-        Assert.AreEqual(4, rows.Count);
+        Assert.AreEqual(8, rows.Count);
     }
 
     // [Test]
