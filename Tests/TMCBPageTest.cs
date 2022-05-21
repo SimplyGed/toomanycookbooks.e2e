@@ -11,6 +11,7 @@ public class TMCBPageTest : PageTest
     {
         var config = new ConfigurationBuilder()
             .AddJsonFile("appsettings.e2e.json")
+            .AddEnvironmentVariables()
             .Build();
 
         URL = config[nameof(URL)];
