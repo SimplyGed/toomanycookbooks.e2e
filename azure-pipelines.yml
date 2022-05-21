@@ -9,17 +9,36 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+variables:
+  buildConfiguration: 'Release'
+
+
 steps:
 - task: DotNetCoreCLI@2
-  displayName: Build E2E Dll
+  displayName: New Manifest for tool
+  inputs:
+    command: custom
+    custom: 'new '
+    arguments: tool-manifest
+
+- task: DotNetCoreCLI@2
+  displayName: Install Playwright CLI
+  inputs:
+    command: custom
+    custom: 'tool '
+    arguments: install Microsoft.Playwright.CLI
+
+- task: DotNetCoreCLI@2
   inputs:
     command: 'build'
-    projects: '**/*.csproj'
-    arguments: '--output $(Build.SourcesDirectory)/output --configuration release'
 
-- task: PublishBuildArtifacts@1
-  displayName: Publish test library
+- task: DotNetCoreCLI@2
+  displayName: Run Playwright Install
   inputs:
-    PathtoPublish: '$(Build.SourcesDirectory)/output'
-    ArtifactName: 'e2e'
-    publishLocation: 'tests'
+    command: custom
+    custom: 'tool '
+    arguments: run playwright install
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'test'
