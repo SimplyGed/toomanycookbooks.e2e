@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Playwright;
 using NUnit.Framework;
@@ -9,7 +10,7 @@ public class AddPageTests : TMCBPageTest
     [SetUp]
     public async Task Setup()
     {
-        _browserPage = await Browser.NewPageAsync(new() { BaseURL = API });
+        _browserPage = await Browser.NewPageAsync(new() { BaseURL = URL, IgnoreHTTPSErrors = true });
     }
 
     [Test]
@@ -55,7 +56,7 @@ public class AddPageTests : TMCBPageTest
 
         await _browserPage.WaitForSelectorAsync("#recipes");
 
-        Assert.AreEqual(API, _browserPage.Url);
+        Assert.AreEqual(URL, _browserPage.Url);
     }
 
     [Test]
@@ -75,8 +76,12 @@ public class AddPageTests : TMCBPageTest
 
         var home = new HomePage(_browserPage);
 
+        await _browserPage.ScreenshotAsync(new PageScreenshotOptions{ Path = "./HomePageShowsNewRecipeAfterSave.png" });
+
         var rows = await home.GetTableRows();
 
-        Assert.AreEqual(9, rows.Count);
+        var records = await ApiService.GetExistingRecipesAsync();
+
+        Assert.AreEqual(records.Count(), rows.Count);
     }
 }

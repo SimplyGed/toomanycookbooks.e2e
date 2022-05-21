@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Playwright;
 using NUnit.Framework;
@@ -5,11 +7,15 @@ using NUnit.Framework;
 public class HomePageTests : TMCBPageTest
 {
     private IPage _browserPage = null!;
-    
+    private IEnumerable<Recipe> _initialRecords = Enumerable.Empty<Recipe>();
+
     [SetUp]
     public async Task Setup()
     {
-        _browserPage = await Browser.NewPageAsync(new() { BaseURL = API });
+        _browserPage = await Browser.NewPageAsync(new() { BaseURL = URL, IgnoreHTTPSErrors = true });
+        _browserPage.Console += (_, msg) => System.Console.WriteLine($"CONSOLE: {msg.Text}");
+
+        _initialRecords = await ApiService.GetExistingRecipesAsync();
     }
 
     [Test]
@@ -21,7 +27,7 @@ public class HomePageTests : TMCBPageTest
 
         var rows = await page.GetTableRows();
         
-        Assert.AreEqual(8, rows.Count);
+        Assert.AreEqual(_initialRecords.Count(), rows.Count);
     }
 
     // [Test]

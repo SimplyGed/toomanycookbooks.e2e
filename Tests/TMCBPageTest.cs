@@ -3,16 +3,19 @@ using Microsoft.Playwright.NUnit;
 
 public class TMCBPageTest : PageTest
 {
-    protected string API { get; init; }
-    protected IConfiguration Configuration { get; init; }
+    protected string URL { get; init; }
+
+    protected ApiService ApiService { get; init; }
 
     public TMCBPageTest() : base()
     {
-        Configuration = new ConfigurationBuilder()
+        var config = new ConfigurationBuilder()
             .AddJsonFile("appsettings.e2e.json")
-            .AddEnvironmentVariables()
             .Build();
 
-        API = Configuration[nameof(API)];
+        URL = config[nameof(URL)];
+
+        var api = config["API"];
+        ApiService = ApiServiceFactory.Create(api);
     }
 }

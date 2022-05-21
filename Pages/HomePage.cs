@@ -11,6 +11,9 @@ public class HomePage
     public HomePage(IPage page)
     {
         _page = page;
+        _page.PageError += (_, ex) => {
+            System.Console.WriteLine($"ERROR: {ex}");
+        };
 
         _recipeTable = page.Locator("#recipes");
     }
@@ -22,8 +25,10 @@ public class HomePage
 
     public async Task<IReadOnlyList<IElementHandle>> GetTableRows()
     {
-        await _page.WaitForSelectorAsync("#recipes tbody tr");
+        var table = await _page.WaitForSelectorAsync("#recipes");
 
-        return await _page.QuerySelectorAllAsync("#recipes tbody tr");
+        var recipe = await table!.WaitForSelectorAsync("tbody tr");
+
+        return await table!.QuerySelectorAllAsync("tbody tr");
     }
 }
