@@ -31,8 +31,7 @@ public class AddPageTests : TMCBPageTest
         await page.GotoAsync();
 
         await page.SetNameAsync("Chicken Madass");
-        await page.SetBookAsync("Angry cooking tips");
-        await page.SetAuthorAsync("Ged");
+        await page.SetBookAsync("Cookbook 2");
 
         await page.BlurAsync();
 
@@ -47,8 +46,7 @@ public class AddPageTests : TMCBPageTest
         await page.GotoAsync();
 
         await page.SetNameAsync("Chicken Madass");
-        await page.SetBookAsync("Angry cooking tips");
-        await page.SetAuthorAsync("Ged");
+        await page.SetBookAsync("Cookbook 5");
 
         await page.BlurAsync();
 
@@ -67,8 +65,7 @@ public class AddPageTests : TMCBPageTest
         await page.GotoAsync();
 
         await page.SetNameAsync("Chicken Madass");
-        await page.SetBookAsync("Angry cooking tips");
-        await page.SetAuthorAsync("Ged");
+        await page.SetBookAsync("Cookbook 4");
 
         await page.BlurAsync();
 
