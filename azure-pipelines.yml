@@ -42,3 +42,6 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'test'
+  env:
+    API: 'https://toomanycookbooksapi-dev.azurewebsites.net/'
+    URL: 'https://toomanycookbooks-dev.azurewebsites.net/'
